@@ -2,11 +2,9 @@ project('inih',
     ['c','cpp'],
     default_options : ['default_library=static'],
     license : 'BSD-3-Clause',
-    version : '49'
 )
 
 #### options ####
-
 arg_static = []
 distro_install = get_option('distro_install')
 
@@ -47,11 +45,11 @@ else
     endif
     max_line_length = get_option('max_line_length')
     if max_line_length != 200
-        arg_static += ['-DINI_MAX_LINE=' + str(max_line_length)]
+        arg_static += ['-DINI_MAX_LINE=' + max_line_length.to_string()]
     endif
     initial_malloc_size = get_option('initial_malloc_size')
     if initial_malloc_size != 200
-        arg_static += ['-DINI_INITIAL_ALLOC=' + str(initial_malloc_size)]
+        arg_static += ['-DINI_INITIAL_ALLOC=' + initial_malloc_size.to_string()]
     endif
     if get_option('allow_realloc')
         arg_static += ['-DINI_ALLOW_REALLOC=1']
@@ -66,7 +64,6 @@ lib_inih = library('inih',
     include_directories : inc_inih,
     c_args : arg_static,
     install : distro_install,
-    version : meson.project_version(),
     soversion : '0'
 )
 
@@ -76,7 +73,6 @@ if distro_install
     pkg.generate(lib_inih,
         name : 'inih',
         description : 'simple .INI file parser',
-        version : meson.project_version()
     )
 endif
 
@@ -94,7 +90,6 @@ if get_option('with_INIReader')
         include_directories : inc_INIReader,
         dependencies : inih_dep,
         install : distro_install,
-        version : meson.project_version(),
         soversion : '0'
     )
 
@@ -104,7 +99,6 @@ if get_option('with_INIReader')
         pkg.generate(lib_INIReader,
             name : 'INIReader',
             description : 'simple .INI file parser for C++',
-            version : meson.project_version()
         )
     endif
 
